@@ -192,11 +192,12 @@ mlProjectsP2.forEach((proj) => {
 // CERTIFICATIONS
 drawSectionHeader('CERTIFICATIONS');
 const certs = [
-  'IBM Certified Data Fundamentals',
-  'Web Development Fundamentals',
+  'Python for Data Science \u2013 NPTEL / IIT Madras (Elite \u00b7 62%)',
   'Analyzing and Visualizing Data with Microsoft Power BI',
+  'IBM Certified Data Fundamentals',
   'Deloitte Australia \u2013 Data Analytics Job Simulation',
-  'Python For Data Science'
+  'Python For Data Science \u2013 Cognitive Class / IBM',
+  'Web Development Fundamentals'
 ];
 
 doc.setFont('helvetica', 'normal');

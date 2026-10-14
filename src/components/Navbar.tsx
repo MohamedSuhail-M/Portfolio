@@ -54,6 +54,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Skills', href: '#skills', ariaLabel: 'Skills and technical toolkit' },
     { label: 'Work', href: '#projects', ariaLabel: 'Key projects and systems' },
     { label: 'Experience', href: '#experience', ariaLabel: 'Experience and leadership' },
+    { label: 'Hackathons', href: '#hackathons', ariaLabel: 'Hackathons and competitions' },
+    { label: 'Certificates', href: '#certifications', ariaLabel: 'Certificates and verified credentials' },
     { label: 'Contact', href: '#contact', ariaLabel: 'Contact Mohamed Suhail M' },
   ];
 

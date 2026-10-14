@@ -73,11 +73,12 @@ Machine Learning Projects (Tech Stack: Python, Pandas, NumPy, Scikit-learn, Matp
 • Employee Attrition Prediction — Developed a machine learning model to identify employees at risk of leaving the organization and support retention strategies.
 
 CERTIFICATIONS
-• IBM Certified Data Fundamentals
-• Web Development Fundamentals
-• Analyzing and Visualizing Data with Microsoft Power BI
-• Deloitte Australia – Data Analytics Job Simulation
-• Python For Data Science
+• Python for Data Science — NPTEL / IIT Madras (Elite · 62% Consolidated Score)
+• Analyzing and Visualizing Data with Microsoft Power BI — Microsoft
+• IBM Certified Data Fundamentals — IBM
+• Deloitte Australia – Data Analytics Job Simulation — Forage
+• Python for Data Science — Cognitive Class / IBM
+• Web Development Fundamentals — Professional Certification
 
 SKILLS
 Technical Skills: Python, SQL, Java, HTML, CSS, Power BI, Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, Git, GitHub, Microsoft Excel, PowerPoint

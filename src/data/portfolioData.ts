@@ -53,6 +53,13 @@ export interface Certification {
   skills: string[];
   credentialId?: string;
   verificationUrl?: string;
+  badge?: string;
+  score?: string;
+  session?: string;
+  credits?: string | number;
+  examBreakdown?: string;
+  certifiedCount?: string;
+  description?: string;
 }
 
 export const PERSONAL_INFO = {
@@ -401,12 +408,19 @@ export const EDUCATION: EducationItem = {
 
 export const CERTIFICATIONS: Certification[] = [
   {
-    id: 'ibm-data-fundamentals',
-    title: 'IBM Certified Data Fundamentals',
-    issuer: 'IBM',
-    skills: ['Data Architecture', 'Big Data Ecosystems', 'Data Governance', 'SQL Foundations'],
-    credentialId: 'Credly / IBM',
-    verificationUrl: 'https://www.credly.com/badges/f9d97f15-a467-4e44-b6b2-e07f548780bc/public_url',
+    id: 'nptel-python-for-data-science',
+    title: 'Python for Data Science',
+    issuer: 'NPTEL / IIT Madras',
+    badge: 'ELITE · 62%',
+    score: '62% (Elite)',
+    session: 'July–August 2026',
+    credits: '2 Credits',
+    examBreakdown: 'Online Assignments: 22.33/25 · Proctored Exam: 39/75',
+    certifiedCount: '16,840 candidates certified',
+    description: 'National Programme on Technology Enhanced Learning (NPTEL) Online Certification funded by the Ministry of Education (MoE), Govt. of India, coordinated by Indian Institute of Technology Madras (IIT Madras).',
+    skills: ['Python 3', 'Pandas', 'NumPy', 'Data Wrangling', 'Exploratory Data Analysis', 'Scikit-learn', 'Predictive Modeling'],
+    credentialId: 'NPTEL26CS107S153502083',
+    verificationUrl: 'https://beta.nptel.ac.in/verify/NOC-5KYN-Q0YZ-JBFDE',
   },
   {
     id: 'power-bi-analyzing-visualizing',
@@ -417,6 +431,14 @@ export const CERTIFICATIONS: Certification[] = [
     verificationUrl: 'https://certx.in/certificate/36a28147-6eed-47a5-8342-e5f926ebba611397025',
   },
   {
+    id: 'ibm-data-fundamentals',
+    title: 'IBM Certified Data Fundamentals',
+    issuer: 'IBM',
+    skills: ['Data Architecture', 'Big Data Ecosystems', 'Data Governance', 'SQL Foundations'],
+    credentialId: 'Credly / IBM',
+    verificationUrl: 'https://www.credly.com/badges/f9d97f15-a467-4e44-b6b2-e07f548780bc/public_url',
+  },
+  {
     id: 'deloitte-data-analytics',
     title: 'Deloitte Australia – Data Analytics Job Simulation',
     issuer: 'Deloitte Australia / Forage',
@@ -425,9 +447,9 @@ export const CERTIFICATIONS: Certification[] = [
     verificationUrl: 'https://www.theforage.com/completion-certificates/9PBTqmSxAf6zZTseP/io9DzWKe3PTsiS6GG_9PBTqmSxAf6zZTseP_6a355ea546f317f60a26f84e_1782565734944_completion_certificate.pdf',
   },
   {
-    id: 'python-for-data-science',
+    id: 'python-for-data-science-cognitive',
     title: 'Python For Data Science',
-    issuer: 'Data Science Academy / Cognitive Class',
+    issuer: 'Cognitive Class / IBM',
     skills: ['Pandas', 'NumPy', 'Scikit-learn', 'Data Wrangling', 'Matplotlib'],
     credentialId: 'Cognitive Class / 6ebb427a',
     verificationUrl: 'https://courses.cognitiveclass.ai/certificates/6ebb427a7ba740fcabe2d503d4cc4d4c',
