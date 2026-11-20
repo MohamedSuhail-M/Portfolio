@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PaperCrumple from './PaperCrumple';
+import { generateCaseStudySheetDataUrl } from '../utils/generateCaseStudySheet';
 import { HackathonProject } from '../data/hackathonData';
 import {
   X,
@@ -38,7 +40,18 @@ export const HackathonCaseStudyModal: React.FC<HackathonCaseStudyModalProps> = (
   eventName,
   onClose,
 }) => {
+  const [presentationMode, setPresentationMode] = useState<'3d-crumple' | 'structured'>('3d-crumple');
   const [activeTab, setActiveTab] = useState<'overview' | 'technical' | 'outcomes'>('overview');
+  const [sheetDataUrl, setSheetDataUrl] = useState<string>('');
+  const [resetKey, setResetKey] = useState<number>(0);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    if (project) {
+      const url = generateCaseStudySheetDataUrl(project, eventName);
+      setSheetDataUrl(url);
+    }
+  }, [project, eventName]);
 
   if (!project) return null;
 
@@ -141,52 +154,185 @@ export const HackathonCaseStudyModal: React.FC<HackathonCaseStudyModalProps> = (
           )}
         </div>
 
-        {/* Nav Tabs for Clean Scannability */}
-        <div className="flex gap-2 border-b-2 border-[#111111] pb-2 mb-6 overflow-x-auto">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border transition-all ${
-              activeTab === 'overview'
-                ? 'bg-[#111111] text-[#F7F7F4] border-[#111111]'
-                : 'bg-white text-[#111111] border-[#111111]/30 hover:border-[#111111]'
-            }`}
-          >
-            1. Overview & Research Framing
-          </button>
-          <button
-            onClick={() => setActiveTab('technical')}
-            className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border transition-all ${
-              activeTab === 'technical'
-                ? 'bg-[#111111] text-[#F7F7F4] border-[#111111]'
-                : 'bg-white text-[#111111] border-[#111111]/30 hover:border-[#111111]'
-            }`}
-          >
-            2. Features, Tech & Architecture
-          </button>
-          <button
-            onClick={() => setActiveTab('outcomes')}
-            className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border transition-all ${
-              activeTab === 'outcomes'
-                ? 'bg-[#111111] text-[#F7F7F4] border-[#111111]'
-                : 'bg-white text-[#111111] border-[#111111]/30 hover:border-[#111111]'
-            }`}
-          >
-            3. Process, Constraints & Outcome
-          </button>
+        {/* Presentation Mode Selector */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 p-2 bg-[#EFEAE0] border-2 border-[#111111] shadow-[3px_3px_0px_#111111]">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => setPresentationMode('3d-crumple')}
+              className={`px-4 py-2 font-mono text-xs font-black uppercase tracking-wider border-2 transition-all flex items-center gap-2 ${
+                presentationMode === '3d-crumple'
+                  ? 'bg-[#111111] text-[#F4D83D] border-[#111111] shadow-[2px_2px_0px_#F4D83D]'
+                  : 'bg-white text-[#111111] border-[#111111] hover:bg-[#F4D83D]'
+              }`}
+            >
+              <span>🗞️ 3D CRUMPLED PAPER DOSSIER</span>
+              <span className="text-[10px] bg-[#F4D83D] text-[#111111] px-1.5 py-0.5 font-black">PHYSICS</span>
+            </button>
+            <button
+              onClick={() => setPresentationMode('structured')}
+              className={`px-4 py-2 font-mono text-xs font-black uppercase tracking-wider border-2 transition-all flex items-center gap-2 ${
+                presentationMode === 'structured'
+                  ? 'bg-[#111111] text-[#F4D83D] border-[#111111] shadow-[2px_2px_0px_#F4D83D]'
+                  : 'bg-white text-[#111111] border-[#111111] hover:bg-[#F4D83D]'
+              }`}
+            >
+              <span>📋 STRUCTURED EDITORIAL REPORT</span>
+            </button>
+          </div>
+
+          {presentationMode === '3d-crumple' && (
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => setIsZoomed(true)}
+                className="px-3 py-1.5 bg-white border-2 border-[#111111] font-mono text-xs font-bold uppercase hover:bg-[#F4D83D] transition-colors shadow-[2px_2px_0px_#111111] flex items-center gap-1.5"
+                title="Inspect high-resolution flat sheet"
+              >
+                <span>🔍 Inspect Flat Sheet</span>
+              </button>
+              <button
+                onClick={() => setResetKey((k) => k + 1)}
+                className="px-3 py-1.5 bg-white border-2 border-[#111111] font-mono text-xs font-bold uppercase hover:bg-[#111111] hover:text-[#F7F7F4] transition-colors shadow-[2px_2px_0px_#111111]"
+                title="Reset crumpled paper sheet"
+              >
+                ↺ Reset Paper Folds
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* TAB 1: OVERVIEW & RESEARCH FRAMING */}
-        {activeTab === 'overview' && (
+        {/* 1. 3D INTERACTIVE CRUMPLED PAPER REPORT MODE */}
+        {presentationMode === '3d-crumple' && (
           <div className="space-y-6">
-            {/* 1. Project Overview */}
-            <div className="p-5 bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#555555] block mb-2">
-                01 / PROJECT OVERVIEW
-              </span>
-              <p className="font-serif sm:text-base text-sm leading-relaxed text-[#222222]">
-                {caseStudy.projectOverview}
-              </p>
+            <div className="p-4 sm:p-6 bg-[#EFEAE0] border-2 border-[#111111] shadow-[6px_6px_0px_#111111]">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#111111]/20 pb-3 mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-black uppercase tracking-wider bg-[#111111] text-[#F4D83D] px-2 py-0.5">
+                    AUTHENTIC PHYSICAL DOSSIER
+                  </span>
+                  <span className="font-mono text-xs text-[#555555]">
+                    • Click & drag sheet to crumple, wrinkle & inspect in 3D WebGL
+                  </span>
+                </div>
+                <span className="font-mono text-[11px] font-bold text-[#111111]">
+                  RELEASE BEHAVIOR: SPRING RESTORE
+                </span>
+              </div>
+
+              {/* The Entire Case Study Report as 3D Paper Sheet */}
+              <div className="w-full flex justify-center py-2 overflow-hidden">
+                <PaperCrumple
+                  key={resetKey}
+                  src={sheetDataUrl || '/placeholder.png'}
+                  alt={`Full Case Study Report Sheet for ${project.name}`}
+                  width={480}
+                  height={678}
+                  sceneHeight={720}
+                  crumpleAmount={0.85}
+                  crumpleDuration={0.5}
+                  releaseDuration={0.4}
+                  foldCount={7}
+                  foldSharpness={0.6}
+                  wrinkleDepth={0.7}
+                  paperColor="#FAF8F2"
+                  paperTexture={0.02}
+                  lightIntensity={1.6}
+                  draggable={true}
+                  returnToOrigin={true}
+                />
+              </div>
+
+              {/* Report Quick Summary Cards */}
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs text-[#222222]">
+                <div className="p-3 bg-white border-2 border-[#111111] shadow-[2px_2px_0px_#111111]">
+                  <strong className="block text-[#111111] uppercase tracking-wider mb-1">
+                    Problem Summary
+                  </strong>
+                  <p className="text-[#444444] text-[11px] line-clamp-3">
+                    {caseStudy.problemStatement.content}
+                  </p>
+                </div>
+                <div className="p-3 bg-white border-2 border-[#111111] shadow-[2px_2px_0px_#111111]">
+                  <strong className="block text-[#111111] uppercase tracking-wider mb-1">
+                    Verified Tech Stack
+                  </strong>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {caseStudy.techStack.tags.slice(0, 4).map((t, idx) => (
+                      <span key={idx} className="bg-[#EFEFEA] px-1.5 py-0.5 text-[10px] font-bold border border-[#111111]">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-3 bg-white border-2 border-[#111111] shadow-[2px_2px_0px_#111111] flex flex-col justify-between">
+                  <div>
+                    <strong className="block text-[#111111] uppercase tracking-wider mb-1">
+                      Official Outcome
+                    </strong>
+                    <span className="inline-block bg-[#111111] text-[#F4D83D] px-2 py-0.5 text-[11px] font-bold">
+                      {project.progressionBadge.text}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setPresentationMode('structured')}
+                    className="mt-2 text-left font-mono text-[11px] font-bold text-[#111111] underline hover:text-[#555555]"
+                  >
+                    Read full 14-point technical breakdown »
+                  </button>
+                </div>
+              </div>
             </div>
+          </div>
+        )}
+
+        {/* 2. STRUCTURED EDITORIAL MULTI-TAB VIEW */}
+        {presentationMode === 'structured' && (
+          <div>
+            {/* Nav Tabs for Clean Scannability */}
+            <div className="flex gap-2 border-b-2 border-[#111111] pb-2 mb-6 overflow-x-auto">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border transition-all ${
+                  activeTab === 'overview'
+                    ? 'bg-[#111111] text-[#F7F7F4] border-[#111111]'
+                    : 'bg-white text-[#111111] border-[#111111]/30 hover:border-[#111111]'
+                }`}
+              >
+                1. Overview & Research Framing
+              </button>
+              <button
+                onClick={() => setActiveTab('technical')}
+                className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border transition-all ${
+                  activeTab === 'technical'
+                    ? 'bg-[#111111] text-[#F7F7F4] border-[#111111]'
+                    : 'bg-white text-[#111111] border-[#111111]/30 hover:border-[#111111]'
+                }`}
+              >
+                2. Features, Tech & Architecture
+              </button>
+              <button
+                onClick={() => setActiveTab('outcomes')}
+                className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border transition-all ${
+                  activeTab === 'outcomes'
+                    ? 'bg-[#111111] text-[#F7F7F4] border-[#111111]'
+                    : 'bg-white text-[#111111] border-[#111111]/30 hover:border-[#111111]'
+                }`}
+              >
+                3. Process, Constraints & Outcome
+              </button>
+            </div>
+
+            {/* TAB 1: OVERVIEW & RESEARCH FRAMING */}
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                {/* 1. Project Overview */}
+                <div className="p-5 bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#555555] block mb-2">
+                    01 / PROJECT OVERVIEW
+                  </span>
+                  <p className="font-serif sm:text-base text-sm leading-relaxed text-[#222222]">
+                    {caseStudy.projectOverview}
+                  </p>
+                </div>
 
             {/* 2. Problem Statement */}
             <div className="p-5 bg-white border-2 border-[#111111] shadow-[4px_4px_0px_#111111]">
@@ -591,8 +737,10 @@ export const HackathonCaseStudyModal: React.FC<HackathonCaseStudyModalProps> = (
             </div>
           </div>
         )}
+      </div>
+    )}
 
-        {/* Modal Footer */}
+    {/* Modal Footer */}
         <div className="mt-8 pt-6 border-t-2 border-[#111111] flex flex-wrap items-center justify-between gap-4">
           <div className="font-mono text-xs text-[#555555]">
             <span className="font-bold text-[#111111]">ACCURACY POLICY:</span> Zero unsupported technical or metric claims.
@@ -604,6 +752,41 @@ export const HackathonCaseStudyModal: React.FC<HackathonCaseStudyModalProps> = (
             Close Case Study
           </button>
         </div>
+
+        {/* Full-res Zoom Inspection Modal */}
+        {isZoomed && sheetDataUrl && (
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+            onClick={() => setIsZoomed(false)}
+          >
+            <div
+              className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto bg-[#FAF8F2] border-4 border-[#111111] shadow-[12px_12px_0px_#111111] p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center pb-3 mb-3 border-b-2 border-[#111111]">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-black uppercase text-[#111111] bg-[#F4D83D] px-2 py-0.5 border border-[#111111]">
+                    FULL-RESOLUTION DOSSIER
+                  </span>
+                  <span className="font-mono text-xs text-[#555555]">
+                    {project.name}
+                  </span>
+                </div>
+                <button
+                  onClick={() => setIsZoomed(false)}
+                  className="px-3 py-1 bg-[#111111] text-[#F7F7F4] font-mono text-xs font-bold uppercase hover:bg-[#F4D83D] hover:text-[#111111] border border-[#111111] shadow-[2px_2px_0px_#111111]"
+                >
+                  ✕ Close
+                </button>
+              </div>
+              <img
+                src={sheetDataUrl}
+                alt="Full resolution case study sheet"
+                className="w-full h-auto object-contain border-2 border-[#111111]"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

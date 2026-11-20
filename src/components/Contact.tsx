@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { Mail, Phone, MapPin, Send, Copy, Check, Github, Linkedin, ArrowUpRight } from 'lucide-react';
+import { SlideCommit } from './SlideCommit';
 
 export const Contact: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -239,7 +241,7 @@ export const Contact: React.FC = () => {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Name */}
                   <div>
@@ -321,15 +323,32 @@ export const Contact: React.FC = () => {
                   />
                 </div>
 
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#111111] hover:bg-black text-[#F7F7F4] font-mono text-xs font-bold uppercase tracking-wider shadow-[4px_4px_0px_#F4D83D] hover:shadow-[2px_2px_0px_#F4D83D] hover:translate-x-0.5 hover:translate-y-0.5 transition-all disabled:opacity-50"
-                >
-                  <Send className="w-4 h-4 text-[#F4D83D]" />
-                  <span>{isSubmitting ? 'DISPATCHING...' : 'DISPATCH MESSAGE'}</span>
-                </button>
+                {/* Slide Button for Dispatch Message */}
+                <div className="pt-2">
+                  <SlideCommit
+                    onCommit={() => {
+                      if (formRef.current) {
+                        if (formRef.current.reportValidity()) {
+                          formRef.current.requestSubmit();
+                        }
+                      }
+                    }}
+                    isSubmitting={isSubmitting}
+                    isSuccess={isSuccess}
+                    text="SLIDE TO DISPATCH MESSAGE"
+                    successText="MESSAGE DISPATCHED ✓"
+                  />
+                  <div className="mt-2.5 flex items-center justify-between font-mono text-[11px] text-[#666666]">
+                    <span>* Drag slider to right edge to verify & send</span>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="underline hover:text-[#111111] font-bold transition-colors"
+                    >
+                      Instant send
+                    </button>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
